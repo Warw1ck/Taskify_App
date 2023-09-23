@@ -1,9 +1,10 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from todos_backend.todos.views import NoteViewSet
+from todos_backend.todos.views import NoteRetrieveUpdateDestroyView
 
 router = DefaultRouter()
-router.register(r'notes', NoteViewSet)
+
+router.register(r'notes', NoteRetrieveUpdateDestroyView)
 
 
 urlpatterns = [

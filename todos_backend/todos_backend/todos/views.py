@@ -1,4 +1,4 @@
-from rest_framework import serializers, viewsets
+from rest_framework import serializers, generics, viewsets
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -10,11 +10,9 @@ class NoteSerializer(serializers.ModelSerializer):
         model = NoteModel
         fields = "__all__"
 
-
-class NoteViewSet(viewsets.ModelViewSet):
+class NoteRetrieveUpdateDestroyView(viewsets.ModelViewSet):
     queryset = NoteModel.objects.all()
     serializer_class = NoteSerializer
-
 
 
 def welcome_page(request):
