@@ -1,8 +1,6 @@
-# React + Vite
+# Taskify
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Taskify is a full-stack task management application built with React and Django REST. Easily create, organize, and track your tasks in a user-friendly interface.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Screenshot_2](https://github.com/Warw1ck/Taskify_App/assets/114092919/6ded790a-d994-4cd6-9837-719f36b39df2)
+![Screenshot_1](https://github.com/Warw1ck/Taskify_App/assets/114092919/d19a1134-af8f-4657-9e4d-2fe3cb1505a3)
