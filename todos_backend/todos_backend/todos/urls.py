@@ -1,12 +1,11 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from todos_backend.todos.views import NoteRetrieveUpdateDestroyView
-
-router = DefaultRouter()
-
-router.register(r'notes', NoteRetrieveUpdateDestroyView)
-
+from todos_backend.todos.views import NoteUpdateView, NoteDestroyView, NoteListView, NoteCreateView
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', NoteListView.as_view()),
+    path('delete', NoteDestroyView.as_view()),
+    path('update', NoteUpdateView.as_view()),
+    path('create', NoteCreateView.as_view()),
+
 ]

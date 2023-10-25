@@ -1,5 +1,9 @@
+import { useContext } from "react"
+import AuthContext from "../../context/AutContext"
 
-export function MakeListToDoS({nameFilter, toDoS, completeTask, deleteTask}){
+export function MakeListToDoS(){
+    const {setFilter, nameFilter, deleteTask, changeNoteStatus} = useContext(AuthContext)
+
     const typeFilter = {
         'All': toDoS,
         'Completed': toDoS.filter(todo=> todo.status === true),
@@ -18,7 +22,7 @@ export function MakeListToDoS({nameFilter, toDoS, completeTask, deleteTask}){
                             <label htmlFor={task['task_name']}>
                                 <p>
                                     {task['task_name']}
-                                    <input type="checkbox" checked={task.status} onChange={(e) => completeTask(task.id, e.target.checked)}/>
+                                    <input type="checkbox" data-id={task.id} checked={task.status} onChange={changeNoteStatus}/>
                                 </p>
                             </label>
                             
