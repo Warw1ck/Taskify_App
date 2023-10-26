@@ -2,12 +2,12 @@ import { useContext } from "react"
 import AuthContext from "../../context/AutContext"
 
 export function MakeListToDoS(){
-    const {setFilter, nameFilter, deleteTask, changeNoteStatus} = useContext(AuthContext)
+    const { notesList, nameFilter, deleteTask, changeNoteStatus} = useContext(AuthContext)
 
     const typeFilter = {
-        'All': toDoS,
-        'Completed': toDoS.filter(todo=> todo.status === true),
-        'Pending': toDoS.filter(todo=> todo.status === false)
+        'All': notesList,
+        'Completed': notesList.filter(todo=> todo.status === true),
+        'Pending': notesList.filter(todo=> todo.status === false)
 
     }
     const  showToDoS = typeFilter[nameFilter]

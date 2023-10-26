@@ -1,15 +1,13 @@
-import { useState } from "react"
-export function MakeFormToDo({createNewItem}){
-    const [title, setTaskTitle] = useState('')
-    function handleSubmit(e){
-        e.preventDefault()
-        createNewItem(title)
-    }
+import { useContext, useState } from "react"
+import AuthContext from "../../context/AutContext"
+export function MakeFormToDo(){
+    const {createNote} = useContext(AuthContext)
+
     return(
         <>
-            <form action="submit" className="task-input" onSubmit={handleSubmit}>
+            <form action="submit" className="task-input" onSubmit={createNote}>
                 <ion-icon name="create-outline"></ion-icon>
-                <input type="text" placeholder="Add a New Task + Enter" value={title} onChange={event => setTaskTitle(event.target.value)} />
+                <input type="text" name="taskName" placeholder="Add a New Task + Enter"/>
                 
             </form>        
       

@@ -4,8 +4,8 @@ from todos_backend.todos.views import NoteUpdateView, NoteDestroyView, NoteListV
 
 urlpatterns = [
     path('', NoteListView.as_view()),
-    path('delete', NoteDestroyView.as_view()),
-    path('update', NoteUpdateView.as_view()),
-    path('create', NoteCreateView.as_view()),
+    path('delete/<int:pk>', NoteDestroyView.as_view()),
+    path('update/<int:pk>', NoteUpdateView.as_view()),
+    path('create/<int:pk>', NoteCreateView.as_view()),
 
 ]

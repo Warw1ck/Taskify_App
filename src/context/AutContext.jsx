@@ -7,7 +7,7 @@ export default AuthContext;
 export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [nameFilter, setFilter] = useState('All')
-  const [notesList, setNotesList] = useState()
+  const [notesList, setNotesList] = useState([])
   const [authToken, setToken] = useState(
     localStorage.getItem("authToken")
       ? JSON.parse(localStorage.getItem("authToken"))
@@ -22,6 +22,7 @@ export function AuthProvider({ children }) {
 //-------------------------------------------------------------------->
   const loginUser = async (e) => {
     e.preventDefault();
+    console.log( e.target.username.value,  e.target.password.value)
     const response = await fetch("http://127.0.0.1:8000/api/token/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -34,7 +35,9 @@ export function AuthProvider({ children }) {
     if (response.status === 200) {
       setUser(jwt_decode(data.access));
       setToken(data);
-      setNotesList(listNodes(data.access))
+      console.log(data)
+      listNodes(data.access)
+      console.log(notesList)
       localStorage.setItem("authToken", JSON.stringify(data));
       // Display a success message on the UI
     } else {
@@ -50,7 +53,7 @@ export function AuthProvider({ children }) {
   };
 //-------------------------------------------------------------------->
   const updateToken = async () => {
-    
+    console.log(authToken?.refresh)
     const response = await fetch("http://127.0.0.1:8000/api/token/refresh/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -62,6 +65,7 @@ export function AuthProvider({ children }) {
     if (response.status === 200) {
       setUser(jwt_decode(data.access));
       setToken(data);
+      
       localStorage.setItem("authToken", JSON.stringify(data));
     } else {
       // Handle token refresh error, e.g., by logging the user out or showing an error message.
@@ -80,30 +84,33 @@ export function AuthProvider({ children }) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authenticate: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
       },
     });
     const notes = await response.json();
-    return notes;
+    setNotesList(notes)
+
   };
 
 //-------------------------------------------------------------------->
-  const createNote = async (text) => {
+  const createNote = async (e) => {
+    e.preventDefault()
     const token = await updateToken()
 
     const data = {
-      task_name: text,
+      task_name: e.target.taskName,
       status: false,
     };
     const response = await fetch("http://127.0.0.1:8000/api/todos/create/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authenticate: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     });
     const notes = await response.json();
+    setNotesList([...notesList, notes])
     
   };
 
@@ -112,10 +119,10 @@ export function AuthProvider({ children }) {
   const changeNoteStatus = async (e) => {
 
     const token = await updateToken()
-
+    const status = e.target.checked
 
     const data = {
-      status: e.target.checked,
+      status: status,
     };
     const response = await fetch(
       `http://127.0.0.1:8000/api/todos/update/${e.target.dataset.id}/`,
@@ -123,13 +130,18 @@ export function AuthProvider({ children }) {
         method: "PATCH", // or 'PUT'
         headers: {
           "Content-Type": "application/json",
-          Authenticate: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       }
     );
     const notes = await response.json();
-    return notes;
+    setNotesList(notesList.map(element =>{
+      if (element.id === id) {
+        return {...element, status:status}
+      }
+    }
+    ))
   };
 
 //-------------------------------------------------------------------->
@@ -138,14 +150,41 @@ export function AuthProvider({ children }) {
     const response = await fetch(
       `http://127.0.0.1:8000/api/todos/delete/${id}`,
       {
-        method: "Delete",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authenticate: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
         },
       }
     );
+    setNotesList(notesList.map(element =>{
+      if (element.id != id) {
+        return element
+        
+      }
+    }
+    ))
   };
+//-------------------------------------------------------------------->
+const deleteAllNote = async () => {
+  const token = await updateToken()
+  notesList.forEach(element => {
+      fetch(
+      `http://127.0.0.1:8000/api/todos/delete/${element.id}`,
+      {
+        method: "Delete",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+      }
+    );
+    
+  
+    });
+    setNotesList([])
+  }
+  
 
 //-------------------------------------------------------------------->
   useState(() => {
@@ -157,6 +196,8 @@ export function AuthProvider({ children }) {
   const context = {
     user: user,
     authToken: authToken,
+    notesList: notesList,
+    nameFilter: nameFilter,
 
     setFilter: setFilter,
 
@@ -168,6 +209,8 @@ export function AuthProvider({ children }) {
     listNotes: listNodes,
     deleteNote: deleteNote,
     createNote: createNote,
+    deleteAllNote: deleteAllNote,
+
   };
 
   return (
