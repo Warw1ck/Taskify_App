@@ -2,14 +2,14 @@ import { useContext } from "react"
 import AuthContext from "../../context/AutContext"
 
 export function MakeControls(){
-    const {deleteAllNote, setFilter } = useContext(AuthContext)
+    const {deleteAllNote, setFilter, nameFilter } = useContext(AuthContext)
     return(
         <>
             <div className="controls">
                 <div className="filters">
-                    <span className="active" id="all" onClick={(e)=> setFilter('All')}>All</span>
-                    <span id="pending" onClick={(e)=> setFilter('Pending')}>Pending</span>
-                    <span id="completed" onClick={(e)=> setFilter('Completed')}>Completed</span>
+                    <span className={nameFilter===null && 'active-filter'} id="all" onClick={(e)=> setFilter(null)}>All</span>
+                    <span className={nameFilter===false && 'active-filter'} id="pending" onClick={(e)=> setFilter(false)}>Pending</span>
+                    <span className={nameFilter===true && 'active-filter'} id="completed" onClick={(e)=> setFilter(true)}>Completed</span>
                 </div>
                 <button className="clear-btn" onClick={(e)=>deleteAllNote()}>Clear All</button>
             </div>
