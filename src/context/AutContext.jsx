@@ -6,8 +6,8 @@ export default AuthContext;
 
 export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
-  const [nameFilter, setFilter] = useState(null)
-  const [notesList, setNotesList] = useState([])
+  const [nameFilter, setFilter] = useState(null);
+  const [notesList, setNotesList] = useState([]);
   const [authToken, setToken] = useState(
     localStorage.getItem("authToken")
       ? JSON.parse(localStorage.getItem("authToken"))
@@ -19,15 +19,15 @@ export function AuthProvider({ children }) {
       : null
   );
 
-//-------------------------------------------------------------------->
+  //-------------------------------------------------------------------->
   const loginUser = async (e) => {
     e.preventDefault();
-    console.log( e.target.username.value,  e.target.password.value)
+    console.log(e.target.email.value, e.target.password.value);
     const response = await fetch("http://127.0.0.1:8000/api/token/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        username: e.target.username.value,
+        email: e.target.email.value,
         password: e.target.password.value,
       }),
     });
@@ -35,9 +35,9 @@ export function AuthProvider({ children }) {
     if (response.status === 200) {
       setUser(jwt_decode(data.access));
       setToken(data);
-      console.log('this is the data:')
-      console.log(data)
-      listNodes(data.access)
+      console.log("this is the data:");
+      console.log(data);
+      listNodes(data.access);
       localStorage.setItem("authToken", JSON.stringify(data));
       // Display a success message on the UI
     } else {
@@ -45,15 +45,15 @@ export function AuthProvider({ children }) {
       alert("Login failed. Please check your credentials.");
     }
   };
-//-------------------------------------------------------------------->
+  //-------------------------------------------------------------------->
   const logout = () => {
     setToken(null);
     setUser(null);
     localStorage.removeItem("authToken");
   };
-//-------------------------------------------------------------------->
+  //-------------------------------------------------------------------->
   const updateToken = async () => {
-    console.log(authToken?.refresh)
+    console.log(authToken?.refresh);
     const response = await fetch("http://127.0.0.1:8000/api/token/refresh/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -64,12 +64,19 @@ export function AuthProvider({ children }) {
     const data = await response.json();
     if (response.status === 200) {
       setUser(jwt_decode(data.access));
+
       setToken({
         refresh: authToken.refresh,
-        access: data.access
+        access: data.access,
       });
 
-      localStorage.setItem("authToken", JSON.stringify(authToken));
+      localStorage.setItem(
+        "authToken",
+        JSON.stringify({
+          refresh: authToken.refresh,
+          access: data.access,
+        })
+      );
     } else {
       // Handle token refresh error, e.g., by logging the user out or showing an error message.
     }
@@ -81,55 +88,52 @@ export function AuthProvider({ children }) {
     return data;
   };
 
-//-------------------------------------------------------------------->
+  //-------------------------------------------------------------------->
   const listNodes = async (token) => {
     const response = await fetch("http://127.0.0.1:8000/api/todos/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     const notes = await response.json();
-    setNotesList(notes)
-
+    setNotesList(notes);
   };
 
-//-------------------------------------------------------------------->
+  //-------------------------------------------------------------------->
   const createNote = async (e) => {
-    e.preventDefault()
-    const token = await updateToken()
+    e.preventDefault();
+    const token = await updateToken();
 
     const data = {
       task_name: e.target.taskName.value,
       status: false,
-      user: user['user_id']
+      user: user["user_id"],
     };
-    console.log(data)
+    console.log(data);
     const response = await fetch("http://127.0.0.1:8000/api/todos/create/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token.access}`,
+        Authorization: `Bearer ${token.access}`,
       },
       body: JSON.stringify(data),
     });
     const notes = await response.json();
-    console.log('Creation Result')
-    console.log(notes)
-    setNotesList([ ...notesList, notes])
-    
+    console.log("Creation Result");
+    console.log(notes);
+    setNotesList([...notesList, notes]);
   };
 
-//-------------------------------------------------------------------->
+  //-------------------------------------------------------------------->
 
   const changeNoteStatus = async (e) => {
-
-    const token = await updateToken()
-    const status = !e.target.checked
-    const id = e.target.dataset.id
-    console.log('Change id and status:')
-    console.log(id, status)
+    const token = await updateToken();
+    const status = !e.target.checked;
+    const id = e.target.dataset.id;
+    console.log("Change id and status:");
+    console.log(id, status);
 
     const data = {
       status: status,
@@ -140,67 +144,63 @@ export function AuthProvider({ children }) {
         method: "PATCH", // or 'PUT'
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token.access}`,
+          Authorization: `Bearer ${token.access}`,
         },
         body: JSON.stringify(data),
       }
     );
     const notes = await response.json();
-    setNotesList(notesList.map(element=>{
-      if (element.id == id) {
-        return notes
-      }else{
-        return element
-      }
-    }))
+    setNotesList(
+      notesList.map((element) => {
+        if (element.id == id) {
+          return notes;
+        } else {
+          return element;
+        }
+      })
+    );
   };
 
-//-------------------------------------------------------------------->
+  //-------------------------------------------------------------------->
   const deleteNote = async (id) => {
-    const token = await updateToken()
+    const token = await updateToken();
     const response = await fetch(
       `http://127.0.0.1:8000/api/todos/${id}/delete/`,
       {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token.access}`,
+          Authorization: `Bearer ${token.access}`,
         },
       }
     );
-    setNotesList(notesList.filter(element =>{
-      return element.id != id
-    }
-    ))
+    setNotesList(
+      notesList.filter((element) => {
+        return element.id != id;
+      })
+    );
   };
-//-------------------------------------------------------------------->
-const deleteAllNote = async () => {
-  const token = await updateToken()
-  notesList.forEach(element => {
-      fetch(
-      `http://127.0.0.1:8000/api/todos/${element.id}/delete/`,
-      {
+  //-------------------------------------------------------------------->
+  const deleteAllNote = async () => {
+    const token = await updateToken();
+    notesList.forEach((element) => {
+      fetch(`http://127.0.0.1:8000/api/todos/${element.id}/delete/`, {
         method: "Delete",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token.access}`,
+          Authorization: `Bearer ${token.access}`,
         },
-      }
-    );
-    
-  
+      });
     });
-    setNotesList([])
-  }
-  
+    setNotesList([]);
+  };
 
-//-------------------------------------------------------------------->
+  //-------------------------------------------------------------------->
   useState(() => {
     if (loading) {
       updateToken();
       if (authToken) {
-        listNodes(authToken.access)
-        
+        listNodes(authToken.access);
       }
     }
   }, [authToken, loading]);
@@ -222,7 +222,6 @@ const deleteAllNote = async () => {
     deleteNote: deleteNote,
     createNote: createNote,
     deleteAllNote: deleteAllNote,
-
   };
 
   return (

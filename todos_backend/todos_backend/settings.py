@@ -80,6 +80,7 @@ CORS_ALLOW_ALL_ORIGINS = True  # Allow requests from any origin (not recommended
 
 ROOT_URLCONF = 'todos_backend.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -97,7 +98,7 @@ TEMPLATES = [
     },
 ]
 
-
+AUTH_USER_MODEL = 'authentication.User'
 WSGI_APPLICATION = 'todos_backend.wsgi.application'
 
 

@@ -25,8 +25,8 @@ function LoginPage() {
               <input
                 className="input100"
                 type="text"
-                name="username"
-                placeholder="Username"
+                name="email"
+                placeholder="Email"
               />
               <span className="focus-input100" />
               <span className="symbol-input100">
