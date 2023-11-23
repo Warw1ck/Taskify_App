@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # My applications
     'todos_backend.todos',
     'todos_backend.authentication',
+    'todos_backend.user_profile',
 
     # Others
     'rest_framework',
