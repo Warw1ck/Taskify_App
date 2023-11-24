@@ -3,6 +3,7 @@ import "../style/css/main.css";
 import "../style/css/util.css";
 import image1 from "../style/images/img-01.png";
 import AuthContext from "../context/AutContext";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
   const { loginUser } = useContext(AuthContext);
@@ -62,13 +63,13 @@ function LoginPage() {
             </div>
 
             <div className="text-center p-t-136">
-              <a className="txt2" href="#">
+              <Link className="txt2" to={'/register'}>
                 Create your Account
                 <i
                   className="fa fa-long-arrow-right m-l-5"
                   aria-hidden="true"
                 />
-              </a>
+              </Link>
             </div>
           </form>
         </div>

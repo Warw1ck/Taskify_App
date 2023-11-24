@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage'
 import { AuthProvider } from './context/AutContext'
 import {LoginWrapper} from './utils/LoginWrapper'
 import {PrivateWrapper} from './utils/PrivateRoutes'
+import RegisterPage from './pages/componentsMain/Register/RegisterPage'
 
 
 function App() {
@@ -17,15 +18,16 @@ function App() {
 
           <Route element={<LoginWrapper/>}>
             <Route element={<LoginPage/>} path='/login'/>
+            <Route element={<RegisterPage/>} path='/register'/>  
           </Route>
           
           <Route element={<PrivateWrapper/>}>
             <Route element={<MainPage/>} path='/'/>
           </Route>
-          
         </Routes>
-       
+         
       </AuthProvider>
+
     </Router>
       
   )

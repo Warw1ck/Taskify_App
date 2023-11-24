@@ -1,11 +1,14 @@
 from django.db import models
-from django.conf import settings
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 # Create your models here.
 
 
 class UserProfileModel(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     gender = models.CharField(max_length=10, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')])

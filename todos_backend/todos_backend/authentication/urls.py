@@ -7,8 +7,8 @@ from todos_backend.authentication.views import MyTokenObtainPairView, UserRegist
 
 urlpatterns = [
 
-    path('token/register/', UserRegistrationView.as_view(), name='user_registration'),
+    path('register/', UserRegistrationView.as_view(), name='user_registration'),
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
 ]

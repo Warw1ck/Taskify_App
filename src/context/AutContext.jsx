@@ -45,6 +45,33 @@ export function AuthProvider({ children }) {
       alert("Login failed. Please check your credentials.");
     }
   };
+
+  //-------------------------------------------------------------------->
+  const registerUser = async (e) => {
+    e.preventDefault();
+    console.log(e.target.gender.value)
+    const formData = {
+      email: e.target.email.value,
+      password: e.target.password.value,
+      userprofile: {
+        first_name: e.target.firstName.value,
+        last_name: e.target.lastName.value,
+        date_of_birth: e.target.birthday.value,
+        gender: e.target.gender.value,
+      },
+    };
+    console.log(formData)
+    const response = await fetch("http://127.0.0.1:8000/api/register/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+    if (response.status === 201) {
+      loginUser(e);
+    } else {
+      alert("Form is not ok");
+    }
+  };
   //-------------------------------------------------------------------->
   const logout = () => {
     setToken(null);
@@ -61,8 +88,10 @@ export function AuthProvider({ children }) {
         refresh: String(authToken?.refresh),
       }),
     });
-    const data = await response.json();
+    console.log(response.status);
     if (response.status === 200) {
+      console.log("I come hereeee");
+      const data = await response.json();
       setUser(jwt_decode(data.access));
 
       setToken({
@@ -77,15 +106,11 @@ export function AuthProvider({ children }) {
           access: data.access,
         })
       );
-    } else {
-      // Handle token refresh error, e.g., by logging the user out or showing an error message.
-    }
-    if (loading) {
       setLoading(false);
+
+      return data;
     }
-    console.log(`Print Data from UpdateToken:`);
-    console.log(data);
-    return data;
+    setLoading(false);
   };
 
   //-------------------------------------------------------------------->
@@ -213,6 +238,7 @@ export function AuthProvider({ children }) {
 
     setFilter: setFilter,
 
+    registerUser: registerUser,
     loginUser: loginUser,
     logOut: logout,
     updateToken: updateToken,
@@ -226,7 +252,13 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={context}>
-      {loading ? <div className="lds-dual-ring"></div> : children}
+      {loading ? (
+        <div className="loading-wrapper">
+          <div className="lds-dual-ring"></div>
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 }
