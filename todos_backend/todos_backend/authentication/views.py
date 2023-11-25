@@ -3,7 +3,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
-from todos_backend.authentication.serializer import UserRegistrationSerializer
+from todos_backend.authentication.serializer import UserSerializer
 
 from django.contrib.auth import get_user_model
 
@@ -26,7 +26,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 class UserRegistrationView(generics.CreateAPIView):
-    serializer_class = UserRegistrationSerializer
+    serializer_class = UserSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

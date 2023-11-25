@@ -13,6 +13,7 @@ class UserProfileModel(models.Model):
     last_name = models.CharField(max_length=30)
     gender = models.CharField(max_length=10, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')])
     date_of_birth = models.DateField(null=True, blank=True)
+    profile_picture = models.URLField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

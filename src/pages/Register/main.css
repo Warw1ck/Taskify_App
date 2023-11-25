@@ -121,7 +121,7 @@ button {
    #PAGE WRAPPER
    ========================================================================== */
 .page-wrapper {
-  padding:  5%  0  5% 0;
+  padding:  1%  0  1% 0;
   min-height: 100vh;
 }
 
@@ -637,4 +637,9 @@ td.active {
   .card-4 .card-body {
     padding: 50px 40px;
   }
+}
+
+.registerError{
+  color: red;
+  text-align: center;
 }

@@ -6,6 +6,7 @@ export default AuthContext;
 
 export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
+  const [wrongRegisterForm, setWrongRegisterForm] = useState(false);
   const [nameFilter, setFilter] = useState(null);
   const [notesList, setNotesList] = useState([]);
   const [authToken, setToken] = useState(
@@ -48,16 +49,23 @@ export function AuthProvider({ children }) {
 
   //-------------------------------------------------------------------->
   const registerUser = async (e) => {
+
     e.preventDefault();
+    setWrongRegisterForm(false)
+    const email = e.target.email.value
+    const password = e.target.password.value
+    const repeatPassword = e.target.repeatPassword.value
+    
     console.log(e.target.gender.value)
     const formData = {
-      email: e.target.email.value,
-      password: e.target.password.value,
+      email,
+      password: password === repeatPassword? password: undefined,
       userprofile: {
         first_name: e.target.firstName.value,
         last_name: e.target.lastName.value,
         date_of_birth: e.target.birthday.value,
         gender: e.target.gender.value,
+
       },
     };
     console.log(formData)
@@ -69,7 +77,7 @@ export function AuthProvider({ children }) {
     if (response.status === 201) {
       loginUser(e);
     } else {
-      alert("Form is not ok");
+      setWrongRegisterForm(true)
     }
   };
   //-------------------------------------------------------------------->
@@ -238,7 +246,10 @@ export function AuthProvider({ children }) {
 
     setFilter: setFilter,
 
+    
+    wrongRegisterForm: wrongRegisterForm,
     registerUser: registerUser,
+    
     loginUser: loginUser,
     logOut: logout,
     updateToken: updateToken,

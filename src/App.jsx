@@ -5,7 +5,9 @@ import LoginPage from './pages/LoginPage'
 import { AuthProvider } from './context/AutContext'
 import {LoginWrapper} from './utils/LoginWrapper'
 import {PrivateWrapper} from './utils/PrivateRoutes'
-import RegisterPage from './pages/componentsMain/Register/RegisterPage'
+import RegisterPage from './pages/Register/RegisterPage'
+import ProfilePage from './pages/Profile/ProfilePage'
+import ProfileEdit from './pages/Profile/ProfileEdit/ProfileEdit'
 
 
 function App() {
@@ -22,6 +24,10 @@ function App() {
           </Route>
           
           <Route element={<PrivateWrapper/>}>
+          <Route element={<ProfilePage/>} path='/profile'/>
+          <Route element={<ProfileEdit/>} path='/profile/edit'/>
+
+
             <Route element={<MainPage/>} path='/'/>
           </Route>
         </Routes>

@@ -11,7 +11,7 @@ User = get_user_model()
 users = User.objects.all()
 
 
-class UserRegistrationSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     userprofile = UserProfileSerializer(write_only=True, required=True)
 
     class Meta:

@@ -38,9 +38,11 @@ body, html {
 	height: 100%;
 	font-family: Poppins-Regular, sans-serif;
 }
-
-/*---------------------------------------------*/
 a {
+  text-decoration: none;
+}
+/*---------------------------------------------*/
+.container-login100 a {
 	font-family: Poppins-Regular;
 	font-size: 14px;
 	line-height: 1.7;
