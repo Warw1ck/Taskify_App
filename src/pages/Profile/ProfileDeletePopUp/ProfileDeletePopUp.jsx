@@ -5,7 +5,7 @@ const ProfileDeletePopUp = ({setVisibleDeleteForm}) => {
     <>
       <div className={'cd-popup is-visible'} role="alert">
         <div className="cd-popup-container">
-          <p>Are you sure you want to delete this element?</p>
+          <p>Are you sure you want to delete your account?</p>
           <ul className="cd-buttons">
             <li>
               <a href="#0">Yes</a>

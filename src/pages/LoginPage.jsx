@@ -6,7 +6,7 @@ import AuthContext from "../context/AutContext";
 import { Link } from "react-router-dom";
 
 function LoginPage() {
-  const { loginUser } = useContext(AuthContext);
+  const { loginUser, wrongLoginForm } = useContext(AuthContext);
 
   return (
     <div className="limiter">
@@ -17,7 +17,8 @@ function LoginPage() {
           </div>
 
           <form className="login100-form validate-form" onSubmit={loginUser}>
-            <span className="login100-form-title">Member Login</span>
+            <span className="login100-form-title">Tasktify Login</span>
+            {wrongLoginForm && <p className="formError">Wrong email or password!</p> }
 
             <div
               className="wrap-input100 validate-input"

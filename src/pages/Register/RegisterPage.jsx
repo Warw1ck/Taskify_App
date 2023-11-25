@@ -9,7 +9,7 @@ const RegisterPage = () => {
         <div className="card card-4">
           <div className="card-body">
             <h2 className="title">Registration Form</h2>
-            {wrongRegisterForm && <p className="registerError">You made mistake in the form!</p>}
+            {wrongRegisterForm && <p className="formError">You made mistake in the form!</p>}
             <form onSubmit={registerUser}>
               <div className="row row-space">
                 <div className="col-2">

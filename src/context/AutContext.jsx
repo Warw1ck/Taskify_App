@@ -7,6 +7,8 @@ export default AuthContext;
 export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [wrongRegisterForm, setWrongRegisterForm] = useState(false);
+  const [wrongLoginForm, setWrongLoginForm] = useState(false);
+
   const [nameFilter, setFilter] = useState(null);
   const [notesList, setNotesList] = useState([]);
   const [authToken, setToken] = useState(
@@ -23,6 +25,7 @@ export function AuthProvider({ children }) {
   //-------------------------------------------------------------------->
   const loginUser = async (e) => {
     e.preventDefault();
+    setWrongLoginForm(false)
     console.log(e.target.email.value, e.target.password.value);
     const response = await fetch("http://127.0.0.1:8000/api/token/", {
       method: "POST",
@@ -43,7 +46,7 @@ export function AuthProvider({ children }) {
       // Display a success message on the UI
     } else {
       // Display an error message on the UI
-      alert("Login failed. Please check your credentials.");
+      setWrongLoginForm(true);
     }
   };
 
@@ -249,7 +252,8 @@ export function AuthProvider({ children }) {
     
     wrongRegisterForm: wrongRegisterForm,
     registerUser: registerUser,
-    
+
+    wrongLoginForm: wrongLoginForm,
     loginUser: loginUser,
     logOut: logout,
     updateToken: updateToken,

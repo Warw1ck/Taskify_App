@@ -133,8 +133,6 @@
   
   .fa-lock{
     font-size: 20px;
-    color: rgba(0,0,0,0.2);
-    padding-top:15px;
   }
   
   .profile-status{
@@ -169,8 +167,3 @@
       transform: rotateY(55deg);
     }
   }
-.navWrapper{
-  display: flex;
-  justify-content: center;
-  padding-top: 50px;
-}

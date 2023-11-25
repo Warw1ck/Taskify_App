@@ -172,11 +172,6 @@ iframe {
   justify-content: center;
   align-items: center;
   padding: 15px;
-  background: #9053c7;
-  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
-  background: linear-gradient(-135deg, #c850c0, #4158d0);
 }
 
 .wrap-login100 {
@@ -463,4 +458,9 @@ iframe {
     visibility: visible;
     opacity: 1;
   }
+}
+
+.wrapper1 .navWrapper{
+  padding: 20px;
+
 }
