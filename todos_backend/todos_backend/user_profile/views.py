@@ -1,10 +1,12 @@
 from django.shortcuts import render
 # Create your views here.
 from rest_framework import generics
+from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from todos_backend.authentication.serializer import UserSerializer
+from todos_backend.user_profile.models import UserProfileModel
 from todos_backend.user_profile.serializer import UserProfileSerializer
 
 
@@ -13,10 +15,13 @@ class UserProfileView(generics.RetrieveAPIView):
     serializer_class = UserProfileSerializer
 
     def get_object(self):
-        # Assuming you have a UserProfile linked to the user
-        return self.request.user.userprofile
+        user = self.request.user
+        user_profile = get_object_or_404(UserProfileModel, user=user)
 
+        # Serialize the user profile using UserProfileSerializer
+        serialized_profile = UserProfileSerializer(user_profile).data
 
+        return serialized_profile
 class UserUpdateView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = UserProfileSerializer

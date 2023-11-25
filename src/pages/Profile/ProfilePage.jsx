@@ -3,11 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./ProfilePage.css";
 import { Link } from "react-router-dom";
 import ProfileDeletePopUp from "./ProfileDeletePopUp/ProfileDeletePopUp";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Layout } from "../componentsMain/layout";
+import AuthContext from "../../context/AutContext";
 
 const ProfilePage = () => {
   const [visibleDeleteForm, setVisibleDeleteForm] = useState(false);
+  const {profile, user} = useContext(AuthContext)
   return (
     <>
       <Layout/>
@@ -30,12 +32,12 @@ const ProfilePage = () => {
           </div>
           <div className="middle">
             <img
-              src="https://pbs.twimg.com/profile_images/970395200274161664/2UKViUgn_400x400.jpg"
+              src={profile['profile_picture']}
               alt=""
               className="user-pic"
             />
-            <h4 className="name">Valentin Obretenov</h4>
-            <h4 className="work">warwick@gmail.com | Male | 15.05.2002</h4>
+            <h4 className="name">{profile['first_name']} {profile['last_name']}</h4>
+            <h4 className="work">{user['email']} | {profile['gender']} | {profile['date_of_birth']}</h4>
             {/* <h4 class="social">
             <i class="fa fa-facebook"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
             <i class="fa fa-dribbble"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
@@ -43,7 +45,7 @@ const ProfilePage = () => {
           </h4> */}
           </div>
           <div className="footer">
-            <Link class="btn-follow" to={"/"}>
+            <Link className="btn-follow" to={"/"}>
               check tasks{" "}
             </Link>
             <br />

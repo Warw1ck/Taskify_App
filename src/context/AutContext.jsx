@@ -8,7 +8,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [wrongRegisterForm, setWrongRegisterForm] = useState(false);
   const [wrongLoginForm, setWrongLoginForm] = useState(false);
-
+  const [profile, setProfile] = useState();
   const [nameFilter, setFilter] = useState(null);
   const [notesList, setNotesList] = useState([]);
   const [authToken, setToken] = useState(
@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
   //-------------------------------------------------------------------->
   const loginUser = async (e) => {
     e.preventDefault();
-    setWrongLoginForm(false)
+    setWrongLoginForm(false);
     console.log(e.target.email.value, e.target.password.value);
     const response = await fetch("http://127.0.0.1:8000/api/token/", {
       method: "POST",
@@ -52,26 +52,24 @@ export function AuthProvider({ children }) {
 
   //-------------------------------------------------------------------->
   const registerUser = async (e) => {
-
     e.preventDefault();
-    setWrongRegisterForm(false)
-    const email = e.target.email.value
-    const password = e.target.password.value
-    const repeatPassword = e.target.repeatPassword.value
-    
-    console.log(e.target.gender.value)
+    setWrongRegisterForm(false);
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const repeatPassword = e.target.repeatPassword.value;
+
+    console.log(e.target.gender.value);
     const formData = {
       email,
-      password: password === repeatPassword? password: undefined,
+      password: password === repeatPassword ? password : undefined,
       userprofile: {
         first_name: e.target.firstName.value,
         last_name: e.target.lastName.value,
         date_of_birth: e.target.birthday.value,
         gender: e.target.gender.value,
-
       },
     };
-    console.log(formData)
+    console.log(formData);
     const response = await fetch("http://127.0.0.1:8000/api/register/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -80,7 +78,7 @@ export function AuthProvider({ children }) {
     if (response.status === 201) {
       loginUser(e);
     } else {
-      setWrongRegisterForm(true)
+      setWrongRegisterForm(true);
     }
   };
   //-------------------------------------------------------------------->
@@ -232,24 +230,43 @@ export function AuthProvider({ children }) {
   };
 
   //-------------------------------------------------------------------->
+
+  const getUserProfile = async (token) => {
+    const response = await fetch(`http://127.0.0.1:8000/api/profile/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    console.log('Profile Data:')
+    console.log(data);
+    setProfile(data);
+  };
+  //-------------------------------------------------------------------->
+
   useState(() => {
     if (loading) {
       updateToken();
       if (authToken) {
         listNodes(authToken.access);
+        getUserProfile(authToken.access);
+
       }
     }
   }, [authToken, loading]);
 
+//-------------------------------------------------------------------->
   const context = {
     user: user,
+    profile: profile,
     authToken: authToken,
     notesList: notesList,
     nameFilter: nameFilter,
 
     setFilter: setFilter,
 
-    
     wrongRegisterForm: wrongRegisterForm,
     registerUser: registerUser,
 

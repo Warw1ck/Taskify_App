@@ -1,10 +1,11 @@
+# authentication/serializers.py
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from todos_backend.user_profile.models import UserProfileModel
+from .models import UserProfileModel
 
-
+User = get_user_model()
 class UserProfileSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = UserProfileModel
-        fields = ['first_name', 'last_name', 'date_of_birth', 'gender']
+        fields = ['first_name', 'last_name', 'gender', 'date_of_birth', 'profile_picture']
 
