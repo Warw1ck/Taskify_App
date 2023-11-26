@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import os
 from datetime import timedelta
 from pathlib import Path
+import dj_database_url
 
 
 
@@ -105,13 +107,8 @@ WSGI_APPLICATION = 'todos_backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+DATABASES = {'default': dj_database_url.parse('postgres://todo_db_server_user:qw22nxmbwOLfVti0uxzIpyWA3RLrOPe3@dpg-clhlrseg1b2c73afmpq0-a.frankfurt-postgres.render.com/todo_db_server')}
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation

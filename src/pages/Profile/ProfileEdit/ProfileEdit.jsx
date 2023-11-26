@@ -1,23 +1,40 @@
+import { useContext, useState } from "react";
 import { Layout } from "../../componentsMain/layout";
+import AuthContext from "../../../context/AutContext";
+import { redirect } from "react-router-dom";
 
 const ProfileEdit = () => {
+  const {profile, updateUserProfile} = useContext(AuthContext)
+  let [firstName, setFirstName] = useState(profile?.first_name)
+  let [lastName, setLastName] = useState(profile?.last_name)
+  let [birthday, setBirthday] = useState(profile?.data_of_birth)
+  let [profilePicture, setProfilePicture] = useState(profile?.profile_picture)
+
+
+
+
   return (
     <>
       <Layout />
+      {profile?
       <div className="page-wrapper bg-gra-02  font-poppins">
         <div className="wrapper wrapper--w680">
           <div className="card card-4">
             <div className="card-body">
               <h2 className="title">Profile Edit Form</h2>
-              <form>
+              <form onSubmit={updateUserProfile}>
                 <div className="row row-space">
                   <div className="col-2">
                     <div className="input-group">
                       <label className="label">first name</label>
                       <input
+                       
                         className="input--style-4"
                         type="text"
                         name="firstName"
+                        value={firstName}
+
+                        onChange={(e)=> setFirstName(e.target.value)}
                       />
                     </div>
                   </div>
@@ -28,6 +45,9 @@ const ProfileEdit = () => {
                         className="input--style-4"
                         type="text"
                         name="lastName"
+                        value={lastName}
+                        onChange={(e)=> setLastName(e.target.value)}
+
                       />
                     </div>
                   </div>
@@ -41,6 +61,9 @@ const ProfileEdit = () => {
                           className="input--style-4 js-datepicker"
                           type="date"
                           name="birthday"
+                          value={birthday}
+                          onChange={(e)=> setBirthday(e.target.value)}
+
                         />
                       </div>
                     </div>
@@ -52,6 +75,8 @@ const ProfileEdit = () => {
                         className="input--style-4"
                         type="text"
                         name="profileImage"
+                        value={profilePicture}
+                        onChange={(e)=> setProfilePicture(e.target.value)}
                       />
                     </div>
                   </div>
@@ -67,6 +92,9 @@ const ProfileEdit = () => {
           </div>
         </div>
       </div>
+      : null 
+      
+      }
     </>
   );
 };

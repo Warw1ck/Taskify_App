@@ -22,18 +22,28 @@ class UserProfileView(generics.RetrieveAPIView):
         serialized_profile = UserProfileSerializer(user_profile).data
 
         return serialized_profile
-class UserUpdateView(generics.UpdateAPIView):
+
+
+class UserProfileUpdateView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = UserProfileSerializer
 
     def get_object(self):
-        return self.request.user
+        user_profile = get_object_or_404(UserProfileModel, user=self.request.user)
+
+        return user_profile
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
+
+        print("Serializer data:", request.data)
+
         serializer.is_valid(raise_exception=True)
+
+        print("Serializer validated data:", serializer.validated_data)
+
         self.perform_update(serializer)
         return Response(serializer.data)
 

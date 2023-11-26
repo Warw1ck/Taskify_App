@@ -1,14 +1,21 @@
 import { createContext, useContext, useState } from "react";
 import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 
 export default AuthContext;
 
 export function AuthProvider({ children }) {
+
+  const navigate = useNavigate()
+
   const [loading, setLoading] = useState(true);
   const [wrongRegisterForm, setWrongRegisterForm] = useState(false);
   const [wrongLoginForm, setWrongLoginForm] = useState(false);
   const [profile, setProfile] = useState();
+
+
+
   const [nameFilter, setFilter] = useState(null);
   const [notesList, setNotesList] = useState([]);
   const [authToken, setToken] = useState(
@@ -43,6 +50,7 @@ export function AuthProvider({ children }) {
       console.log(data);
       listNodes(data.access);
       localStorage.setItem("authToken", JSON.stringify(data));
+      getUserProfile(data.access)
       // Display a success message on the UI
     } else {
       // Display an error message on the UI
@@ -67,6 +75,8 @@ export function AuthProvider({ children }) {
         last_name: e.target.lastName.value,
         date_of_birth: e.target.birthday.value,
         gender: e.target.gender.value,
+        profile_picture: e.target.profileImage.value
+
       },
     };
     console.log(formData);
@@ -87,6 +97,21 @@ export function AuthProvider({ children }) {
     setUser(null);
     localStorage.removeItem("authToken");
   };
+    //-------------------------------------------------------------------->
+
+    const getUserProfile = async (token) => {
+      const response = await fetch(`http://127.0.0.1:8000/api/profile/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      console.log("Profile Data:");
+      console.log(data);
+      setProfile(data);
+    };
   //-------------------------------------------------------------------->
   const updateToken = async () => {
     console.log(authToken?.refresh);
@@ -102,6 +127,7 @@ export function AuthProvider({ children }) {
       console.log("I come hereeee");
       const data = await response.json();
       setUser(jwt_decode(data.access));
+      await getUserProfile(data.access)
 
       setToken({
         refresh: authToken.refresh,
@@ -229,35 +255,74 @@ export function AuthProvider({ children }) {
     setNotesList([]);
   };
 
+
   //-------------------------------------------------------------------->
 
-  const getUserProfile = async (token) => {
-    const response = await fetch(`http://127.0.0.1:8000/api/profile/`, {
-      method: "GET",
+  const updateUserProfile = async (e) => {
+    e.preventDefault();
+
+
+    const token = await updateToken();
+
+    const formData ={
+      first_name: e.target.firstName.value,
+      last_name: e.target.lastName.value,
+      date_of_birth: e.target.birthday.value,
+      profile_picture: e.target.profileImage.value,
+      gender: profile.gender
+      
+    };
+    const response = await fetch(`http://127.0.0.1:8000/api/profile/update`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token.access}`,
       },
+      body: JSON.stringify(formData)
     });
-    const data = await response.json();
-    console.log('Profile Data:')
-    console.log(data);
-    setProfile(data);
+    console.log(response.status)
+    if(response.status === 200){
+      getUserProfile(token.access)
+      navigate('/profile')
+
+    }else{
+      alert('Form not Valid!')
+    }
+
   };
   //-------------------------------------------------------------------->
+  const deleteUser = async () => {
+    const token = await updateToken()
+    const response = await fetch(`http://127.0.0.1:8000/api/profile/delete`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token.access}`,
+      },
+    });
+    if(response.status === 204){
+      logout()
+    }
+  };
+  //--
+  //-------------------------------------------------------------------->
+
+
 
   useState(() => {
-    if (loading) {
-      updateToken();
-      if (authToken) {
-        listNodes(authToken.access);
-        getUserProfile(authToken.access);
+    const fetchAllData = async ()=>{
+      const token = await updateToken();
+      listNodes(token.access);
+      console.log(' I comeeeeeeee here')
 
-      }
+    }
+    
+    if (loading) {
+      fetchAllData()
     }
   }, [authToken, loading]);
 
-//-------------------------------------------------------------------->
+  //-------------------------------------------------------------------->
   const context = {
     user: user,
     profile: profile,
@@ -266,6 +331,9 @@ export function AuthProvider({ children }) {
     nameFilter: nameFilter,
 
     setFilter: setFilter,
+
+    updateUserProfile:updateUserProfile,
+    deleteUser: deleteUser,
 
     wrongRegisterForm: wrongRegisterForm,
     registerUser: registerUser,

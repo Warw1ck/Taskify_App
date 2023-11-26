@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import "./ProfileDeletePopUp.css";
+import AuthContext from "../../../context/AutContext";
 
 const ProfileDeletePopUp = ({setVisibleDeleteForm}) => {
+  const {deleteUser} = useContext(AuthContext)
   return (
     <>
       <div className={'cd-popup is-visible'} role="alert">
@@ -8,7 +11,7 @@ const ProfileDeletePopUp = ({setVisibleDeleteForm}) => {
           <p>Are you sure you want to delete your account?</p>
           <ul className="cd-buttons">
             <li>
-              <a href="#0">Yes</a>
+              <a onClick={deleteUser}>Yes</a>
             </li>
             <li>
               <a onClick={()=>setVisibleDeleteForm(false)}>No</a>

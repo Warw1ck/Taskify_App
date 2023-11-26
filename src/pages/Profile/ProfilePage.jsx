@@ -17,6 +17,7 @@ const ProfilePage = () => {
       {visibleDeleteForm && (
         <ProfileDeletePopUp setVisibleDeleteForm={setVisibleDeleteForm} />
       )}
+      
       <div className="profilePage">
         <div className="bg-cover"></div>
         <div className="container">
