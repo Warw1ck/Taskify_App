@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import ProfileDeletePopUp from "./ProfileDeletePopUp/ProfileDeletePopUp";
 import { useContext, useState } from "react";
 import { Layout } from "../Layout/layout";
-import AuthContext from "../../context/AutContext";
+import AuthContext from "../../context/AuthContext";
 
 const ProfilePage = () => {
   const [visibleDeleteForm, setVisibleDeleteForm] = useState(false);

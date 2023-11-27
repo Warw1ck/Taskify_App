@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import "./ProfileDeletePopUp.css";
-import AuthContext from "../../../context/AutContext";
+import AuthContext from "../../../context/AuthContext";
 
 const ProfileDeletePopUp = ({setVisibleDeleteForm}) => {
   const {deleteUser} = useContext(AuthContext)

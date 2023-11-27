@@ -4,7 +4,7 @@ import { MakeFormToDo } from './formToDo'
 import { MakeControls } from './controls'
 import '../../style/css/style.css'
 import { Layout } from '../Layout/layout'
-import AuthContext from '../../context/AutContext'
+import AuthContext from '../../context/AuthContext'
 
 
 function MainPage() {

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import AuthContext from "../../context/AutContext"
+import AuthContext from "../../context/AuthContext"
 export function MakeFormToDo(){
     const {createNote} = useContext(AuthContext)
 

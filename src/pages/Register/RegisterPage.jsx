@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import "./main.css";
-import AuthContext from "../../context/AutContext";
+import AuthContext from "../../context/AuthContext";
 const RegisterPage = () => {
   const { registerUser, wrongRegisterForm } = useContext(AuthContext);
   return (

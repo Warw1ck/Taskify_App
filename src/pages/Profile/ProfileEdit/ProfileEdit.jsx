@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { Layout } from "../../Layout/layout";
-import AuthContext from "../../../context/AutContext";
+import AuthContext from "../../../context/AuthContext";
 import { redirect } from "react-router-dom";
 
 const ProfileEdit = () => {

@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import AuthContext from "../../context/AutContext"
+import AuthContext from "../../context/AuthContext"
 
 export function MakeControls(){
     const {deleteAllNote, setFilter, nameFilter } = useContext(AuthContext)

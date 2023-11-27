@@ -616,11 +616,15 @@ td.active {
 .card-4 .card-body {
   padding: 57px 65px;
   padding-bottom: 65px;
+
 }
 
 @media (max-width: 767px) {
   .card-4 .card-body {
     padding: 50px 40px;
+    max-height: 100vh;
+    overflow: scroll;
+
   }
 }
 
