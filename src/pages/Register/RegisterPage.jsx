@@ -75,7 +75,7 @@ const RegisterPage = () => {
                 <div class="col-2">
                   <div class="input-group">
                     <label class="label">Profile Picture URL</label>
-                    <input class="input--style-4" type="text" name="picture" />
+                    <input class="input--style-4" type="text" name="profileImage" />
                   </div>
                 </div>
               </div>
