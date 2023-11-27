@@ -4,7 +4,7 @@ import "./ProfilePage.css";
 import { Link } from "react-router-dom";
 import ProfileDeletePopUp from "./ProfileDeletePopUp/ProfileDeletePopUp";
 import { useContext, useState } from "react";
-import { Layout } from "../componentsMain/layout";
+import { Layout } from "../Layout/layout";
 import AuthContext from "../../context/AutContext";
 
 const ProfilePage = () => {

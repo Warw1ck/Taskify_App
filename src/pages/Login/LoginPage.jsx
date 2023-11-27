@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import "../style/css/main.css";
-import "../style/css/util.css";
-import image1 from "../style/images/img-01.png";
-import AuthContext from "../context/AutContext";
+import "../../style/css/main.css";
+import "../../style/css/util.css";
+import image1 from "../../style/images/img-01.png";
+import AuthContext from "../../context/AutContext";
 import { Link } from "react-router-dom";
 
 function LoginPage() {

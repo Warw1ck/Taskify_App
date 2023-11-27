@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
-import { MakeListToDoS } from './componentsMain/listToDoS'
-import { MakeFormToDo } from './componentsMain//formToDo'
-import { MakeControls } from './componentsMain//controls'
-import '../style/css/style.css'
-import { Layout } from './componentsMain/layout'
-import AuthContext from '../context/AutContext'
+import { MakeListToDoS } from './listToDoS'
+import { MakeFormToDo } from './formToDo'
+import { MakeControls } from './controls'
+import '../../style/css/style.css'
+import { Layout } from '../Layout/layout'
+import AuthContext from '../../context/AutContext'
 
 
 function MainPage() {

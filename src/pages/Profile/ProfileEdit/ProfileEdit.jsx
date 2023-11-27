@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Layout } from "../../componentsMain/layout";
+import { Layout } from "../../Layout/layout";
 import AuthContext from "../../../context/AutContext";
 import { redirect } from "react-router-dom";
 

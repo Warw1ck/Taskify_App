@@ -6,6 +6,7 @@ const AuthContext = createContext();
 export default AuthContext;
 
 export function AuthProvider({ children }) {
+  const url = 'https://todos-main-server.onrender.com'
 
   const navigate = useNavigate()
 
@@ -34,7 +35,7 @@ export function AuthProvider({ children }) {
     e.preventDefault();
     setWrongLoginForm(false);
     console.log(e.target.email.value, e.target.password.value);
-    const response = await fetch("http://127.0.0.1:8000/api/token/", {
+    const response = await fetch(`${url}/api/token/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -80,7 +81,7 @@ export function AuthProvider({ children }) {
       },
     };
     console.log(formData);
-    const response = await fetch("http://127.0.0.1:8000/api/register/", {
+    const response = await fetch(`${url}/api/register/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
@@ -100,7 +101,7 @@ export function AuthProvider({ children }) {
     //-------------------------------------------------------------------->
 
     const getUserProfile = async (token) => {
-      const response = await fetch(`http://127.0.0.1:8000/api/profile/`, {
+      const response = await fetch(`${url}/api/profile/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -115,7 +116,7 @@ export function AuthProvider({ children }) {
   //-------------------------------------------------------------------->
   const updateToken = async () => {
     console.log(authToken?.refresh);
-    const response = await fetch("http://127.0.0.1:8000/api/token/refresh/", {
+    const response = await fetch(`${url}/api/token/refresh/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -150,7 +151,7 @@ export function AuthProvider({ children }) {
 
   //-------------------------------------------------------------------->
   const listNodes = async (token) => {
-    const response = await fetch("http://127.0.0.1:8000/api/todos/", {
+    const response = await fetch(`${url}/api/todos/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -172,7 +173,7 @@ export function AuthProvider({ children }) {
       user: user["user_id"],
     };
     console.log(data);
-    const response = await fetch("http://127.0.0.1:8000/api/todos/create/", {
+    const response = await fetch(`${url}/api/todos/create/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -199,7 +200,7 @@ export function AuthProvider({ children }) {
       status: status,
     };
     const response = await fetch(
-      `http://127.0.0.1:8000/api/todos/${id}/update/`,
+      `${url}/api/todos/${id}/update/`,
       {
         method: "PATCH", // or 'PUT'
         headers: {
@@ -225,7 +226,7 @@ export function AuthProvider({ children }) {
   const deleteNote = async (id) => {
     const token = await updateToken();
     const response = await fetch(
-      `http://127.0.0.1:8000/api/todos/${id}/delete/`,
+      `${url}/api/todos/${id}/delete/`,
       {
         method: "DELETE",
         headers: {
@@ -244,7 +245,7 @@ export function AuthProvider({ children }) {
   const deleteAllNote = async () => {
     const token = await updateToken();
     notesList.forEach((element) => {
-      fetch(`http://127.0.0.1:8000/api/todos/${element.id}/delete/`, {
+      fetch(`${url}/api/todos/${element.id}/delete/`, {
         method: "Delete",
         headers: {
           "Content-Type": "application/json",
@@ -272,7 +273,7 @@ export function AuthProvider({ children }) {
       gender: profile.gender
       
     };
-    const response = await fetch(`http://127.0.0.1:8000/api/profile/update`, {
+    const response = await fetch(`${url}/api/profile/update`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -293,7 +294,7 @@ export function AuthProvider({ children }) {
   //-------------------------------------------------------------------->
   const deleteUser = async () => {
     const token = await updateToken()
-    const response = await fetch(`http://127.0.0.1:8000/api/profile/delete`, {
+    const response = await fetch(`${url}/api/profile/delete`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
