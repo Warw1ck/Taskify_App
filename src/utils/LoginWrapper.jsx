@@ -1,12 +1,18 @@
 import React, {useContext} from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
 
 export const LoginWrapper = () => {
+  const navigate = useNavigate()
   const {user} = useContext(AuthContext)
   console.log(user)
-  return !user ? <Outlet /> : <Navigate to=" " />;
+  if (!user) {
+    return <Outlet />;
+  } else {
+    navigate("/");
+    return null;
+  }
 };
 
 

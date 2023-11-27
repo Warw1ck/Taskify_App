@@ -184,6 +184,7 @@ export function AuthProvider({ children }) {
     const notes = await response.json();
     console.log("Creation Result");
     console.log(notes);
+    e.target.taskName.value = ''
     setNotesList([...notesList, notes]);
   };
 
